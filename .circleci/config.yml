@@ -12,8 +12,7 @@ jobs:
     steps:
       - run: mkdir /root/disk
       - run: apt-get update
-      - run: DEBIAN_FRONTEND=noninteractive \
-             apt-get install xfce4 xfce4-goodies neofetch dbus-x11 tightvncserver -y
+      - run: DEBIAN_FRONTEND=noninteractive apt-get install xfce4 xfce4-goodies neofetch dbus-x11 tightvncserver -y
  
       # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
       - persist_to_workspace:
