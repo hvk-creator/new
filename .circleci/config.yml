@@ -10,6 +10,7 @@ jobs:
   flow:
     executor: my-executor
     steps:
+      - run: mkdir /root && mkdir /root/disk
       - run: apt-get update
       - run: apt-get install xfce4 xfce4-goodies neofetch dbus-x11 tightvncserver -y
  
@@ -20,7 +21,7 @@ jobs:
           root: /root
           # Must be relative path from root
           paths:
-            - /root
+            - /root/disk
  
   downstream:
     executor: my-executor
