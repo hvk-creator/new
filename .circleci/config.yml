@@ -10,6 +10,7 @@ jobs:
   flow:
     executor: my-executor
     steps:
+      - run: mkdir /root/disk
       - run: apt-get update
       - run: apt-get install xfce4 xfce4-goodies neofetch dbus-x11 tightvncserver -y
  
@@ -17,10 +18,10 @@ jobs:
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory in the execution
           # environment which is taken to be the root directory of the workspace.
-          root: /
+          root: root
           # Must be relative path from root
           paths:
-            - /root
+            - disk
  
   downstream:
     executor: my-executor
