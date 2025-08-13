@@ -1,30 +1,42 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
-jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
+ 
+executors:
+  my-executor:
     docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/base
-      - image: ubuntu:latest
-
-    # Add steps to the job
-    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
+      - image: buildpack-deps:jessie
+    working_directory: /
+ 
+jobs:
+  flow:
+    executor: my-executor
     steps:
-      # Checkout the code as the first step.
-      - checkout
-      - run:
-          name: "Install neofetch"
-          command: "apt-get update && apt install -y neofetch && neofetch"
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+      - run: apt-get update
+      - run: apt-get install xfce4 xfce4-goodies neofetch dbus-x11 tightvncserver -y
+ 
+      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory in the execution
+          # environment which is taken to be the root directory of the workspace.
+          root: /
+          # Must be relative path from root
+          paths:
+            - /
+ 
+  downstream:
+    executor: my-executor
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: /
+ 
+      - run: neofetch
+      - run: df -h
+          
+ 
 workflows:
-  say-hello-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  btd:
     jobs:
-      - say-hello
+      - flow
+      - downstream:
+          requires:
+            - flow
