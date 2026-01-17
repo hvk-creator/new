@@ -1,3 +1,15 @@
+# v0.0.2 (Sat Jan 17 2026)
+
+#### ⚠️ Pushed to `main`
+
+- Add files via upload ([@hvk-creator](https://github.com/hvk-creator))
+
+#### Authors: 1
+
+- [@hvk-creator](https://github.com/hvk-creator)
+
+---
+
 # v0.0.1 (Sat Jan 17 2026)
 
 :tada: This release contains work from a new contributor! :tada:
